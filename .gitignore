@@ -41,6 +41,7 @@ vignettes/*.pdf
 #data (excludes everything in the folder data)
 raw_data/*
 clean_data/*
+builds/*
 
 # you can make exceptions for specific files
 !code/data_dic/data_description.xlsx
