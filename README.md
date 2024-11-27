@@ -11,7 +11,7 @@ To use the template click on the green button "use this template" and follow the
 ## Folder sturcture
 
 This repo has a specific folder structure that we recommend as best practice.
-The data are kept in separate folders named *raw_data* and *clean_data*, while the code is stored in the folder *code*.
+The data are kept in separate folders named *raw_data* and *clean_data*, while the code is stored in the folder *code*. **Do not upload data to GitHub.** Data should be stored in the OSF repository and fetched with an appropriate DataDownloader script.
 The raw data are the original and untouched files usually .csv or .txt formatted files.
 The clean data is often produced from the raw data using code and stored automatically.
 
