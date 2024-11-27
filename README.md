@@ -22,9 +22,10 @@ We also recommend to use a user licence.
 
 `Code` folders are based on levels of data processing.
 * **functions** holds scripts that are just functions, no data. Usually these are referenced by `source()` rather than directly accessed by the user.
-* **data_processing** holds scripts for taking the data from its absolute raw state (sometimes in file formats other than CSV) to a processed table.
-* **data_cleaning** holds scripts for taking processed data, cleaning it, and compiling it into the datasets stored on OSF (not necessarily in that order).
-* **data_dic** holds scripts used to generate data dictionaries as described below. Note that these scripts are slightly altered from Aud's original scripts because Hilary Rose found ways to increase automation.
+* **1_data_processing** holds scripts for taking the data from its absolute raw state (sometimes in file formats other than CSV) to a processed table.
+* **2_data_cleaning** holds scripts for taking processed data, cleaning it, and compiling it into the datasets stored on OSF (not necessarily in that order).
+* **3_data_visualization** holds scripts to make the data paper graphics.
+* **4_data_dic** holds scripts used to generate data dictionaries as described below. Note that these scripts are slightly altered from Aud's original scripts because Hilary Rose found ways to increase automation.
 
 
 ## Data documentation
