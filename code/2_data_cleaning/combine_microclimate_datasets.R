@@ -59,7 +59,7 @@ microclimate <- read.csv("raw_data/flir_values.csv") |>
     TRUE ~ aspect
   ),
   # Add in date
-  Date = paste0("2024-12-", day..NOT.DATE....)) |>
+  Date = paste0("2023-12-", day..NOT.DATE....)) |>
   # Remove extraneous FLIR readings
   drop_na(aspect) |>
   # Add in infrared temperatures
@@ -82,7 +82,10 @@ microclimate <- read.csv("raw_data/flir_values.csv") |>
               drop_na(metric) |>
               filter(metric != "moist")) |>
   # Convert time to include seconds to match LICOR
-  mutate(time = paste0(time, ":00")) |>
+  mutate(time = case_when(
+    !is.na(time) ~ paste0(time, ":00"),
+    TRUE ~ NA
+  )) |>
   # Bind in LI7500 temps
   bind_rows(read.csv("raw_data/LI7500_temperature.csv") |>
               pivot_longer('Temperature..C.', names_to = "metric", values_to = "value") |>
@@ -120,14 +123,16 @@ microclimate <- read.csv("raw_data/flir_values.csv") |>
            siteID == 2 ~ 2200,
            siteID == 1 ~ 2000
          ), levels = c("3000", "2800", "2600", "2400", "2200", "2000"))) |>
+  # Remove measurements taken outside sampling period
+  mutate(date = ymd(Date)) |>
+  filter(date %within% lubridate::interval("2023-12-05", "2023-12-19")) |>
   # Harmonise names
-  select(-c(plot_id, elevation_m_asl)) |>
-  rename(date = Date, site_id = siteID, elevation_m_asl = elevation,
+  select(-c(plot_id, elevation_m_asl, Date)) |>
+  rename(site_id = siteID, elevation_m_asl = elevation,
          plot_id = plot, device = dataset, climate_variable = metric, day_night = day.night) |>
   select(date, time, site_id, elevation_m_asl, aspect, plot_id, day_night, device,
          climate_variable, value, flag_all)
 
-write.csv(microclimate |> drop_na(value), "clean_data/PFTC7_microclimate_south_africa_2023.csv",
-          row.names = FALSE)
 
-# Check that all plots are represented in microclimate data ----
+write.csv(microclimate |> drop_na(value), "outputs/PFTC7_microclimate_south_africa_2023.csv",
+          row.names = FALSE)
