@@ -1,7 +1,8 @@
 library(ggh4x)
 library(viridis)
 
-microclimate = read.csv("clean_data/PFTC7_microclimate_south_africa_2023.csv")
+microclimate = read.csv("clean_data/PFTC7_microclimate_south_africa_2023.csv") |>
+  mutate(elevation_m_asl = factor(elevation_m_asl, levels = c("3000", "2800", "2600", "2400", "2200", "2000")))
 
 ggplot(microclimate |> drop_na(value), aes(x=value, fill=aspect)) +
   geom_density(alpha=0.6, linewidth = 0.6) +
@@ -28,5 +29,5 @@ ggplot(microclimate |> drop_na(value), aes(x=value, fill=aspect)) +
     text=element_text(size=15)
   )
 
-ggsave("visualizations/2024.11.27_dataPaper_microclimate.png",
+ggsave("outputs/2025.01.16_dataPaper_microclimate.png",
        width = 14, height = 10, units = "in")
