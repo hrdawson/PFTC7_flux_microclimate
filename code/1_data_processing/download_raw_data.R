@@ -283,3 +283,15 @@ get_file(
   path = "raw_data/microclimate",
   # Where is the file stored within the OSF repository?
   remote_path = "raw_data/raw_microclimate_data/Tomst_data")
+
+# FLIR data ----
+get_file(
+  # Which repository is it in?
+  node = "hk2cy",
+  # Which file do you want?
+  file = "PFTC7_SA_FLIR_2023.csv",
+  # Where do you want the file to go to?
+  path = "raw_data",
+  # Where is the file stored within the OSF repository?
+  remote_path = "raw_data/raw_microclimate_data/FLIR_handheld_data/FLIR_images")
+
