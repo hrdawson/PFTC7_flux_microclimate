@@ -25,7 +25,22 @@ FLIRflat = flir_long |>
   # Filter out obs without file number
   filter(file_number != "") |>
   # Rename temp col
-  rename(temp_C = value)
+  rename(temp_C = value) |>
+  # Replace missing values
+  mutate(time = case_when(
+    time == "" ~ NA,
+    TRUE ~ time
+  ),
+  day..NOT.DATE.... = case_when(
+    is.na(day..NOT.DATE....) & siteID == 1 ~ 14,
+    TRUE ~ day..NOT.DATE....
+  )
+  )
+
+FLIR.na = FLIR_replace |>
+  filter(is.na(day..NOT.DATE....)) |>
+  select(siteID, aspect, day.night) |>
+  distinct()
 
 saveRDS(FLIRflat, "outputs/flir_values.Rds")
 write.csv(FLIRflat, "outputs/flir_values.csv")
