@@ -37,13 +37,8 @@ FLIRflat = flir_long |>
   )
   )
 
-FLIR.na = FLIR_replace |>
-  filter(is.na(day..NOT.DATE....)) |>
-  select(siteID, aspect, day.night) |>
-  distinct()
-
 saveRDS(FLIRflat, "outputs/flir_values.Rds")
-write.csv(FLIRflat, "outputs/flir_values.csv")
+write.csv(FLIRflat, "outputs/flir_values.csv", row.names = FALSE)
 
 # make trial plot with basic FLIR
 ggplot(FLIRflat |> filter(temp_C > 0) |> drop_na(siteID),
