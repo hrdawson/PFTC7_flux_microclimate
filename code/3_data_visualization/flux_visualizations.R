@@ -8,6 +8,20 @@ library(RColorBrewer)
 library(gridExtra)
 library(GGally)
 
+# Download clean data
+# install.packages("remotes")
+# remotes::install_github("Between-the-Fjords/dataDownloader")
+library(dataDownloader)
+
+get_file(
+  # Which repository is it in?
+  node = "hk2cy",
+  # Which file do you want?
+  file = "pftc7_ecosystem_fluxes_south_africa_2023.csv",
+  # Where do you want the file to go to?
+  path = "clean_data",
+  # Where is the file stored within the OSF repository?
+  remote_path = "flux_data")
 
 dt <- fread("clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv")
 
