@@ -46,7 +46,7 @@ data_dic_microclimate <- make_data_dictionary(data = read.csv("clean_data/PFTC7_
                                       description_table = description_table_microclimate,
                                       table_ID = "microclimate",
                                       keep_table_ID = FALSE)
-write.csv(data_dic_microclimate, "data_dic/dataDic_microclimate.csv")
+write.csv(data_dic_microclimate, "data_dic/dataDic_microclimate.csv", row.names = FALSE)
 
 # Flux data dic ----
 # Start by creating a template CSV
