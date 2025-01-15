@@ -54,3 +54,4 @@ builds/*
 *.csv
 *.xls
 *.xlsx
+outputs/
