@@ -49,7 +49,7 @@ dt_w_raw <- fread("raw_data/dataFragments/licor_et_flagged.csv") %>%
   left_join(dt_date)
 
 unique(dt_date$file)
-unique(dt_w_raw[is.na(date), ]$file)
+unique(dt_w_raw[is.na(date), ]$filename)
 
 dt_w <- dt_w_raw %>%
   filter(flag %in% c("okay", "manual_flux_time_selection")) %>%

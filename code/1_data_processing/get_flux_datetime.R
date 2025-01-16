@@ -21,7 +21,16 @@ fluxFiles <- readFluxFiles(path = path,
                            ambient = "a",
                            recursive = T)
 
+dt_date <- fread("raw_data/dataFragments/licor7500_datetimes.csv")
 
+
+
+### load carbon fluxes
+dt_c_raw <- fread("raw_data/dataFragments/licor_nee_flagged.csv") %>%
+  mutate(file = gsub("raw_data/LI7500/All_sites/", "", filename)) %>%
+  left_join(dt_date)
+
+unique(dt_c_raw[is.na(date), ]$filename)
 
 ## get Flux metadata (South Africa specific unfortunately)
 
@@ -45,7 +54,7 @@ fluxDFRaw <- getFluxDF(files = fluxFiles,
                        device = "LI7500" #default
 )  %>%
   left_join(fluxMeta) %>% #join metadata
-  filter(!grepl("not used", Filename)) %>% filter(!grepl("old", Filename)) #remove unused files
+  filter(!grepl("not used", Filename)) #%>% filter(!grepl("old", Filename)) #remove unused files
 
 ## subset to filenames and date/datetime
 
