@@ -2,6 +2,7 @@
 
 library(data.table)
 library(tidyverse)
+library(tidylog)
 
 ## load datetime
 
@@ -13,6 +14,9 @@ dt_date <- fread("raw_data/dataFragments/licor7500_datetimes.csv")
 dt_c_raw <- fread("raw_data/dataFragments/licor_nee_flagged.csv") %>%
   mutate(file = gsub("raw_data/LI7500/All_sites/", "", filename)) %>%
   left_join(dt_date)
+
+unique(dt_c_raw[is.na(date), ]$file)
+
 
 dt_c <- dt_c_raw %>%
   filter(flag %in% c("okay", "decreasing_NEE", "increasing_ER", "manual_flux_time_selection")) %>%
@@ -40,8 +44,12 @@ dt_c <- dt_c_raw %>%
 
 ### load water fluxes
 dt_w_raw <- fread("raw_data/dataFragments/licor_et_flagged.csv") %>%
-  mutate(file = gsub("raw_data/LI7500/All_sites/", "", filename)) %>%
+  mutate(file = gsub("raw_data/LI7500/All_sites/", "", filename),
+         file = paste0(file, ".txt")) %>%
   left_join(dt_date)
+
+unique(dt_date$file)
+unique(dt_w_raw[is.na(date), ]$file)
 
 dt_w <- dt_w_raw %>%
   filter(flag %in% c("okay", "manual_flux_time_selection")) %>%
