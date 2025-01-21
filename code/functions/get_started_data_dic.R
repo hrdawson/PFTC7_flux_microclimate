@@ -16,7 +16,7 @@
 #'
 
 # A function to create a directory and
-get_started <- function(path = "code/data_dic", data){
+get_started <- function(path = "data_dic", data){
 
   # create a directory data dic
   dir.create(path)
