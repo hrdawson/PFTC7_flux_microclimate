@@ -1,12 +1,11 @@
 ### Vizualize fluxes
-
-
 library(tidyverse)
 library(data.table)
 library(ggridges)
 library(RColorBrewer)
 library(gridExtra)
 library(GGally)
+library(viridis)
 
 # Download clean data
 # install.packages("remotes")
@@ -23,7 +22,28 @@ get_file(
   # Where is the file stored within the OSF repository?
   remote_path = "flux_data")
 
-dt <- fread("clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv")
+dt <- fread("clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv") |>
+  # Mutate factor for elevation
+  mutate(elevation_m_asl = factor(elevation_m_asl,
+                                  levels = c("2000", "2200", "2400", "2600", "2800")),
+         # Separate fluxes into measured and calculated
+         flux_method = case_when(
+           flux_type %in% c("cue",   "gpp", "npp",
+                            "wue", "transpiration") ~ "Calculated",
+           flux_type %in% c("evapotrans", "nee", "resp_day", "resp_night",
+                            "evap_day", "evap_night",
+                            "soil_resp", "soil_evap") ~ "Measured"
+         )
+         )
+
+# Summarise flux measurements
+dt |>
+  group_by(flux_category, flux_method) |>
+  summarize(n = length(flux_value))
+
+1# Visualise
+palette_elevation = colorRampPalette(colors = c("#f0f921", "#fca636", "#e16462",
+                                                 "#b12a90", "#6a00a8"))(5)
 
 #Fluxes  along elevation
 c_ele <- dt %>%
@@ -32,7 +52,7 @@ c_ele <- dt %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
   geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .9) +
-  scale_fill_brewer(palette = "Greens") +
+  scale_fill_manual(values = palette_elevation) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", title = "a)") +
@@ -46,7 +66,7 @@ w_ele <- dt %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
   geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .9) +
-  scale_fill_brewer(palette = "Greens") +
+  scale_fill_manual(values = palette_elevation) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", title = "b)") +
