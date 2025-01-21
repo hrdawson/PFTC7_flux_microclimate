@@ -21,11 +21,21 @@ fluxFiles <- readFluxFiles(path = path,
                            ambient = "a",
                            recursive = T)
 
-dt_date <- fread("raw_data/dataFragments/licor7500_datetimes.csv")
+# dt_date <- fread("raw_data/dataFragments/licor7500_datetimes.csv")
 
 
 
 ### load carbon fluxes
+get_file(
+  # Which repository is it in?
+  node = "hk2cy",
+  # Which file do you want?
+  file = "licor_nee_flagged.csv",
+  # Where do you want the file to go to?
+  path = "raw_data/dataFragments",
+  # Where is the file stored within the OSF repository?
+  remote_path = "flux_data")
+
 dt_c_raw <- fread("raw_data/dataFragments/licor_nee_flagged.csv") %>%
   mutate(file = gsub("raw_data/LI7500/All_sites/", "", filename)) %>%
   left_join(dt_date)
