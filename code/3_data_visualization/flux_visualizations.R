@@ -61,7 +61,7 @@ c_asp <- dt %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
   geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .9) +
-  scale_fill_manual(values = c("gold1", "darkblue")) +
+  scale_fill_manual(values = c("#f9ca00", "#0000f8")) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", y = "Aspect", title = "a)") +
@@ -75,7 +75,7 @@ w_asp <- dt %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
   geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .9) +
-  scale_fill_manual(values = c("gold1", "darkblue")) +
+  scale_fill_manual(values = c("#f9ca00", "#0000f8")) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", y = "Aspect", title = "b)") +
