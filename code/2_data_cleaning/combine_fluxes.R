@@ -99,10 +99,12 @@ dt_sr <- dt_sr_raw %>%
 
 ### calculate additional metrics
 
-dt_calc <- rbind(dt_c, dt_w, dt_sr) %>%
-  dplyr::select(unique_location_id, flux_type, flux_value,
-                aspect, elevation_m_asl, plot_id, site_id,
-                date, date_time, day_night) %>%
+dt_calc <- rbind(dt_c,
+                 dt_w,
+                 dt_sr) %>%
+  group_by(unique_location_id, aspect, elevation_m_asl,
+           plot_id, site_id, flux_type) %>%
+  summarize(flux_value = mean(flux_value, na.rm = T)) %>%
   pivot_wider(names_from = flux_type, values_from = flux_value) %>%
   mutate(gpp = resp_day - nee,
          npp = gpp - (resp_day - soil_resp),
@@ -110,7 +112,10 @@ dt_calc <- rbind(dt_c, dt_w, dt_sr) %>%
          transpiration = evapotrans - evap_day,
          wue = transpiration/npp,
          r_squared = NA,
-         flag = NA) %>%
+         flag = NA,
+         date = NA,
+         date_time = NA,
+         day_night = NA) %>%
   dplyr::select(unique_location_id, aspect, elevation_m_asl,
                 plot_id, site_id, r_squared, flag,
                 date, date_time, day_night,
@@ -150,5 +155,7 @@ dt_comb <- rbind(dt_c, dt_w, dt_sr, dt_calc) %>% filter(!is.na(flux_value)) %>%
   )
 
 summary(dt_comb)
+table(dt_comb$flux_type)
+
 
 fwrite(dt_comb, "clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv")
