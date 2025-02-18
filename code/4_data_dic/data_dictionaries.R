@@ -53,7 +53,7 @@ write.csv(data_dic_microclimate, "data_dic/dataDic_microclimate.csv", row.names 
 flux.data = read.csv("clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv",
                      na.strings = c("", " ", "NA"))
 
-get_started(data = flux.data)
+# get_started(data = flux.data)
 
 description_table_flux = read.csv("data_dic/description_table_flux.csv") |>
   mutate(TableID = as.character(TableID))
@@ -63,3 +63,7 @@ data_dic_flux <- make_data_dictionary(data = flux.data,
                                               table_ID = "flux",
                                               keep_table_ID = FALSE)
 write.csv(data_dic_flux, "data_dic/dataDic_flux.csv")
+
+# render readme --------------------------------------------------------
+# to avoid re running everything and slowing down the process, we render the readme file here
+rmarkdown::render(input = "README.Rmd")
