@@ -130,7 +130,7 @@ microclimate <- read.csv("raw_data/flir_values.csv") |>
   select(-c(plot_id, elevation_m_asl, Date)) |>
   rename(site_id = siteID, elevation_m_asl = elevation,
          plot_id = plot, device = dataset, climate_variable = metric, day_night = day.night) |>
-  select(date, time, site_id, elevation_m_asl, aspect, plot_id, day_night, device,
+  select(date, time, site_id, elevation_m_asl, treat_1, treat_2, aspect, plot_id, day_night, device,
          climate_variable, value, flag_all)
 
 
