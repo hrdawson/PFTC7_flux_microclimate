@@ -1,44 +1,52 @@
-# PFTC_template
+Readme
+================
+PFTC7 Group 3
+2025-02-19
 
-This GitHub repository is a template repo for the PFTC courses.
-For more information about PFTC see [here](https://plantfunctionaltraitscourses.w.uib.no/).
+# Data dictionnaries
 
-This repo is aimed at data sciences in ecology, but can also be used in other fields.
+## CO<sub>2</sub> fluxes
 
-To use the template click on the green button "use this template" and follow the instructions on GitHub.
+| Variable.name | Description | Variable type | Variable range or levels | Units | How.measured |
+|:---|:---|:---|:---|:---|:---|
+| date_time | Date and time of observation (if known) | categorical | 2023-12-03T11:08:28Z - 2023-12-16T21:00:27Z | yyyy-mm-dd hh:mm:ss | defined |
+| date | Date of observation | categorical | 2023-12-03 - 2023-12-16 | yyyy-mm-dd | defined |
+| unique_location_id | Concatenated SiteID, elevation, aspect, and PlotID | categorical | 2000_east_1 - 2800_west_5 |  | defined |
+| site_id | Site number | numeric | 1 - 5 |  | defined |
+| elevation_m_asl | Site elevation | numeric | 2000 - 2800 | m asl | defined |
+| aspect | Transect aspect | categorical | east - west |  | defined |
+| plot_id | Number of plot on transect | numeric | 1 - 5 |  | defined |
+| day_night | Whether the measurement was performed as part of a daytime or nighttime flux campaign | categorical | day - night |  | defined |
+| device | What equipment was used to measure the microclimate value | categorical | calculated - LI-8100 |  | defined |
+| flux_type | Which flux was measured or calculated, including cue (carbon-use efficiency), evap_day (daytime evaporation), evap_night (nighttime evaporation), evapotrans (evapotranspiration), gpp (gross primary productivity), nee (net ecosystem exchange), npp (net primary productivity), resp_day (daytime ecosystem respiration), resp_night (nighttime ecosystem respiration), soil_evap (soil evaporation), soil_resp (soil respiration), transpiration (ecosystem transpiration), wue (water-use efficiency) | categorical | cue - wue |  | defined |
+| clean_flux_type | Full name and units of the flux | categorical | Carbon Use Efficiency |  |  |
 
+(GPP/NPP) - Water Use Efficiency (Transpiration/NPP) \| \|defined \|
+\|flux_value \|Flux readings \|numeric \|-17.879 - 28.546
+\|micromol/m\_/s or GPP/NPP (CUE) or Transpiration/NPP (WUE) \|recorded
+\| \|flux_category \|Carbon or water fluxes \|categorical \|Carbon -
+Water \| \|defined \| \|r_squared \|Model fit \|numeric \|0 - 0.999 \|
+\|recorded \| \|flag \|Quality flag \|categorical
+\|manual_flux_time_selection - okay \| \|defined \|
 
-## Folder sturcture
+## Microclimate
 
-This repo has a specific folder structure that we recommend as best practice.
-The data are kept in separate folders named *raw_data* and *clean_data*, while the code is stored in the folder *code*. **Do not upload data to GitHub.** Data should be stored in the OSF repository and fetched with an appropriate DataDownloader script.
-The raw data are the original and untouched files usually .csv or .txt formatted files.
-The clean data is often produced from the raw data using code and stored automatically.
+| Variable.name | Description | Variable type | Variable range or levels | Units | How.measured |
+|:---|:---|:---|:---|:---|:---|
+| elevation_m_asl | Site elevation | numeric | 2000 - 3000 | m asl | defined |
+| aspect | Transect aspect | categorical | east - west |  | defined |
+| device | What equipment was used to measure the microclimate value | categorical | FLIR - Tomst |  | defined |
+| climate_variable | Microclimate variable including moisture_soil, temperature_air, temperature_ground, temperature_leaf, temperature_near_surface, and temperature_soil | categorical | moisture_soil - temperature_soil |  | defined |
+| value | Temperature or moisture reading discarding values later flagged as suspect | numeric | 0.029 - 72.944 | degrees C, (m3 water \_ m_3 soil) \_ 100 | recorded |
 
-In addition, there is a .gitignore text file, which tells git all the files that should be ignored.
-This file can be edited and adapted to the users needs.
+# Data quality flags
 
-We also recommend to use a user licence.
-
-`Code` folders are based on levels of data processing.
-* **functions** holds scripts that are just functions, no data. Usually these are referenced by `source()` rather than directly accessed by the user.
-* **1_data_processing** holds scripts for taking the data from its absolute raw state (sometimes in file formats other than CSV) to a processed table.
-* **2_data_cleaning** holds scripts for taking processed data, cleaning it, and compiling it into the datasets stored on OSF (not necessarily in that order).
-* **3_data_visualization** holds scripts to make the data paper graphics.
-* **4_data_dic** holds scripts used to generate data dictionaries as described below. Note that these scripts are slightly altered from Aud's original scripts because Hilary Rose found ways to increase automation.
-
-
-## Data documentation
-
-We strongly recommend to document the data, which is best practice.
-The *code* folder contains a subfolder *data_dic* with files scripts to produce a data dictionary.
-
-The *data_description.xlsx* file contains basic information about each variable: description, unit and how it was collected.
-This file has to be done manually (until we find a solution to automate it).
-
-The R file *make_data_dictionary.R* contains a function that makes the data dictionary from the data file and the description file.
-
-The *data_dic.R* file contains example code to make the data dictionary for each data set and to compile it to one file in the end.
-Here each dataset needs to be entered.
-
-The *download_clean_data.R* shows and example for how to download the clean data if it is stored externally on a data repository, for example on OSF.
+| Flag | Replaced flux | Explanation | Recommended action | \# of CO2/H2O fluxes |
+|----|----|----|----|----|
+| decreasing_NEE | \- | NEE decreased during the flux measurement (often followed by a redo) | keep | 4/0 |
+| discard_this_keep_other_reading | NA | The less reliable of a pair of readings (usually with a redo) | discard | 6/22 |
+| high_aic_discard_this_keep_other_reading | NA | The higher AIC value of a flux that was split into multiple pieces by the break points function. | discard | 16/4 |
+| increasing_ER | NA | ER increased during the flux measurement (often followed by a redo | discard | 2/0 |
+| manual_flux_time_selection | – | The break points function failed to select the most biologically useful portion of the flux. A new time was manually chosen. | keep | 6/34 |
+| okay | – | – | keep | 140/114 |
+| suspicious | NA | The changes over time do not have a reasonable explanation. | discard | 1/4 |
