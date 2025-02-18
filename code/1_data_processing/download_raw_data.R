@@ -273,12 +273,44 @@ unzip(
 # Remove the zip file once you've unzipped it
 file.remove("raw_data/microclimate/Tomst_logger_raw.zip") #let's free some space
 
+## Raw RangeX Tomst data ----
+get_file(
+  # Which repository is it in?
+  node = "hk2cy",
+  # Which file do you want?
+  file = "Rangex_data.zip",
+  # Where do you want the file to go to?
+  path = "raw_data/microclimate",
+  # Where is the file stored within the OSF repository?
+  remote_path = "raw_data/raw_microclimate_data/Tomst_data/RangeX")
+
+# Unzip data
+unzip(
+  # Where is the zipped folder?
+  "raw_data/microclimate/Rangex_data.zip",
+  # Where do you want the files to go to?
+  exdir = "raw_data/microclimate")
+
+# Remove the zip file once you've unzipped it
+file.remove("raw_data/microclimate/Rangex_data.zip") #let's free some space
+
 ## Tomst metadata ----
 get_file(
   # Which repository is it in?
   node = "hk2cy",
   # Which file do you want?
   file = "Tomst logger IDs.csv",
+  # Where do you want the file to go to?
+  path = "raw_data/microclimate",
+  # Where is the file stored within the OSF repository?
+  remote_path = "raw_data/raw_microclimate_data/Tomst_data")
+
+## Tomst RangeX metadata ----
+get_file(
+  # Which repository is it in?
+  node = "hk2cy",
+  # Which file do you want?
+  file = "Tomst logger IDs RangeX.csv",
   # Where do you want the file to go to?
   path = "raw_data/microclimate",
   # Where is the file stored within the OSF repository?
