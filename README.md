@@ -34,6 +34,8 @@ Water \| \|defined \| \|r_squared \|Model fit \|numeric \|0 - 0.999 \|
 | Variable.name | Description | Variable type | Variable range or levels | Units | How.measured |
 |:---|:---|:---|:---|:---|:---|
 | elevation_m_asl | Site elevation | numeric | 2000 - 3000 | m asl | defined |
+| treat_1 | ambient = ambient conditions, warm = plot experiencing warmed by open top chamber (OTC) | categorical | ambient - warm |  | defined |
+| treat_2 | Plots contain intact vegetation. | categorical | vegetation - vegetation |  | defined |
 | aspect | Transect aspect | categorical | east - west |  | defined |
 | device | What equipment was used to measure the microclimate value | categorical | FLIR - Tomst |  | defined |
 | climate_variable | Microclimate variable including moisture_soil, temperature_air, temperature_ground, temperature_leaf, temperature_near_surface, and temperature_soil | categorical | moisture_soil - temperature_soil |  | defined |
