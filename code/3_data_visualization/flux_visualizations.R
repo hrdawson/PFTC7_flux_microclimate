@@ -42,8 +42,8 @@ dt |>
   summarize(n = length(flux_value))
 
 1# Visualise
-palette_elevation = colorRampPalette(colors = c("#f0f921", "#fca636", "#e16462",
-                                                 "#b12a90", "#6a00a8"))(5)
+palette_elevation = colorRampPalette(colors = c("#FDCB26", "#EF7F4F", "#DD5E66",
+                                                 "#A72197", "#6F00A8"))(5)
 
 #Fluxes  along elevation
 c_ele <- dt %>%
@@ -51,7 +51,7 @@ c_ele <- dt %>%
   mutate(Elevation = as.factor(elevation_m_asl)) %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
-  geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .9) +
+  geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .7) +
   scale_fill_manual(values = palette_elevation) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
@@ -65,7 +65,7 @@ w_ele <- dt %>%
   mutate(Elevation = as.factor(elevation_m_asl)) %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
-  geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .9) +
+  geom_density_ridges(aes(x = flux_value, y = Elevation, fill = Elevation), alpha = .7) +
   scale_fill_manual(values = palette_elevation) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
@@ -80,8 +80,8 @@ c_asp <- dt %>%
   mutate(Elevation = as.factor(elevation_m_asl)) %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
-  geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .9) +
-  scale_fill_manual(values = c("#f9ca00", "#0000f8")) +
+  geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .7) +
+  scale_fill_manual(values = c("#FF9000", "#0000f8")) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", y = "Aspect", title = "a)") +
@@ -94,8 +94,8 @@ w_asp <- dt %>%
   mutate(Elevation = as.factor(elevation_m_asl)) %>%
   ggplot() +
   geom_vline(xintercept = 0, linetype = "dashed", color = "grey25") +
-  geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .9) +
-  scale_fill_manual(values = c("#f9ca00", "#0000f8")) +
+  geom_density_ridges(aes(x = flux_value, y = aspect, fill = aspect), alpha = .7) +
+  scale_fill_manual(values = c("#FF9000", "#0000f8")) +
   facet_wrap(~clean_flux_type, scales = "free_x", ncol = 4) +
   theme_bw() +
   labs(x= "Flux Value", y = "Aspect", title = "b)") +
@@ -104,7 +104,6 @@ w_asp <- dt %>%
 w_asp
 
 ### combine plots
-
 p_ele <- grid.arrange(c_ele, w_ele, heights = c(1, 1))
 
 p_asp <- grid.arrange(c_asp, w_asp, heights = c(1, 1))
@@ -112,6 +111,13 @@ p_asp <- grid.arrange(c_asp, w_asp, heights = c(1, 1))
 
 ggsave(plot = p_ele, "builds/plots/elevation_fluxes.png", dpi = 600, height = 9, width = 9)
 ggsave(plot = p_asp, "builds/plots/aspect_fluxes.png", dpi = 600, height = 9, width = 9)
+
+# Alternative using patchwork
+library(patchwork)
+c_asp / w_asp +
+  plot_layout(axes = "collect")
+
+ggsave("outputs/aspect_fluxes.png", dpi = 600, height = 9, width = 9)
 
 table(dt$flux_type)
 
