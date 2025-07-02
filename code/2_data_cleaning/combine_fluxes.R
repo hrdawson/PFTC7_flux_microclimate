@@ -148,14 +148,13 @@ dt_comb <- rbind(dt_c, dt_w, dt_sr, dt_calc) %>% filter(!is.na(flux_value)) %>%
       .default = "calculated",
       flux_type %in% c("soil_resp", "soil_evap") ~ "LI-8100",
       flux_type %in% c("nee", "resp_day", "resp_night", "evap_day", "evap_night", "evapotrans") ~ "LI-7500")) %>%
-  relocate(date_time, date, unique_location_id, site_id, elevation_m_asl,
-           aspect, plot_id, day_night,
-           device, flux_type, clean_flux_type, flux_value, flux_category,
-           r_squared, flag
-  )
+  relocate(date_time, date, unique_location_id,
+           aspect, site_id, elevation_m_asl, plot_id, day_night,
+           flux_type, clean_flux_type, flux_value,
+           flux_category, r_squared, device, flag)
 
 summary(dt_comb)
 table(dt_comb$flux_type)
 
 
-fwrite(dt_comb, "clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv")
+fwrite(dt_comb, "clean_data/x_PFTC7_clean_ecosystem_fluxes_2023.csv")

@@ -21,7 +21,7 @@ get_file(
   # Where do you want the file to go to?
   path = "data_dic",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_microclimate_data")
+  remote_path = "raw_data/xi_raw_microclimate")
 
 ## Fluxes
 get_file(
@@ -32,7 +32,7 @@ get_file(
   # Where do you want the file to go to?
   path = "data_dic",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_flux_data")
+  remote_path = "raw_data/x_raw_ecosystem_fluxes")
 
 # Microclimate data dic ----
 # (Start by creating a template CSV)
@@ -42,7 +42,7 @@ get_file(
 description_table_microclimate = read.csv("data_dic/description_table_microclimate.csv") |>
   mutate(TableID = as.character(TableID))
 
-data_dic_microclimate <- make_data_dictionary(data = read.csv("clean_data/PFTC7_microclimate_south_africa_2023.csv"),
+data_dic_microclimate <- make_data_dictionary(data = read.csv("clean_data/xi_PFTC7_clean_microclimate_2023.csv"),
                                       description_table = description_table_microclimate,
                                       table_ID = "microclimate",
                                       keep_table_ID = FALSE)
@@ -50,7 +50,7 @@ write.csv(data_dic_microclimate, "data_dic/dataDic_microclimate.csv", row.names 
 
 # Flux data dic ----
 # Start by creating a template CSV
-flux.data = read.csv("clean_data/pftc7_ecosystem_fluxes_south_africa_2023.csv",
+flux.data = read.csv("clean_data/x_PFTC7_clean_ecosystem_fluxes_2023.csv",
                      na.strings = c("", " ", "NA"))
 
 # get_started(data = flux.data)

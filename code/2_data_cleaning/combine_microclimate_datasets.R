@@ -12,7 +12,7 @@ get_file(
   # Where do you want the file to go to?
   path = "raw_data",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_microclimate_data")
+  remote_path = "raw_data/xi_raw_microclimate")
 
 ## Processed FLIR data ----
 # Note that this file is 383MB and may cause R to crash.
@@ -25,7 +25,7 @@ get_file(
   # Where do you want the file to go to?
   path = "raw_data",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_microclimate_data")
+  remote_path = "raw_data/xi_raw_microclimate")
 
 ## Processed LI7500 temps ----
 get_file(
@@ -36,7 +36,7 @@ get_file(
   # Where do you want the file to go to?
   path = "raw_data",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_microclimate_data")
+  remote_path = "raw_data/xi_raw_microclimate")
 
 ## Processed IR temps ----
 get_file(
@@ -47,7 +47,7 @@ get_file(
   # Where do you want the file to go to?
   path = "raw_data",
   # Where is the file stored within the OSF repository?
-  remote_path = "raw_data/raw_microclimate_data")
+  remote_path = "raw_data/xi_raw_microclimate")
 
 # Combine and clean separate datasets ----
 microclimate <- read.csv("raw_data/flir_values.csv") |>
@@ -130,9 +130,14 @@ microclimate <- read.csv("raw_data/flir_values.csv") |>
   select(-c(plot_id, elevation_m_asl, Date)) |>
   rename(site_id = siteID, elevation_m_asl = elevation,
          plot_id = plot, device = dataset, climate_variable = metric, day_night = day.night) |>
-  select(date, time, site_id, elevation_m_asl, treat_1, treat_2, aspect, plot_id, day_night, device,
-         climate_variable, value, flag_all)
+  select(date, time, site_id, elevation_m_asl,
+         #treat_1, treat_2,
+         aspect, plot_id, day_night, device,
+         climate_variable, value, flag_all) %>%
+  relocate(date, time,
+           aspect, site_id, elevation_m_asl, plot_id, day_night,
+           climate_variable, value, device, flag_all)
 
 
-write.csv(microclimate |> drop_na(value), "outputs/PFTC7_microclimate_south_africa_2023.csv",
+write.csv(microclimate |> drop_na(value), "clean_data/xi_PFTC7_clean_microclimate_2023.csv",
           row.names = FALSE)
