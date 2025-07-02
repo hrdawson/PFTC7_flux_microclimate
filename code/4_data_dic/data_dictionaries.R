@@ -45,8 +45,8 @@ description_table_microclimate = read.csv("data_dic/description_table_microclima
 data_dic_microclimate <- make_data_dictionary(data = read.csv("clean_data/xi_PFTC7_clean_microclimate_2023.csv"),
                                       description_table = description_table_microclimate,
                                       table_ID = "microclimate",
-                                      keep_table_ID = FALSE)
-write.csv(data_dic_microclimate, "data_dic/dataDic_microclimate.csv", row.names = FALSE)
+                                      keep_table_ID = T)
+write.csv(data_dic_microclimate, "data_dic/xi_PFTC7_microclimate_data_dictionary_2023.csv", row.names = FALSE)
 
 # Flux data dic ----
 # Start by creating a template CSV
@@ -62,7 +62,7 @@ data_dic_flux <- make_data_dictionary(data = flux.data,
                                               description_table = description_table_flux,
                                               table_ID = "flux",
                                               keep_table_ID = FALSE)
-write.csv(data_dic_flux, "data_dic/dataDic_flux.csv")
+write.csv(data_dic_flux, "data_dic/x_PFTC7_ecosystem_fluxes_data_dictionary_2023.csv")
 
 # render readme --------------------------------------------------------
 # to avoid re running everything and slowing down the process, we render the readme file here
